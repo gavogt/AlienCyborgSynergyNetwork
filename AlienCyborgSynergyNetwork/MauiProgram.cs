@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace AlienCyborgSynergyNetwork
 {
@@ -13,6 +14,10 @@ namespace AlienCyborgSynergyNetwork
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 });
+
+            var dbPath = Path.Combine(FileSystem.AppDataDirectory, "synergy.db");
+            builder.Services.AddDbContext<SynergyDBContext>(options =>
+                options.UseSqlite($"Data Source={dbPath}"));
 
             builder.Services.AddMauiBlazorWebView();
 

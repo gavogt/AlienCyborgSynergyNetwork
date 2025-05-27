@@ -7,25 +7,29 @@ using System.Threading.Tasks;
 
 namespace AlienCyborgSynergyNetwork
 {
-    internal class User
+    public class User
     {
         [Key]
-        private Guid Guid { get; set; }
-        private string Email { get; set; }
-        private string Password { get; set; }
-        private string FirstName { get; set; }
-        private string LastName { get; set; }
-        private int Age { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public int Age { get; set; }
 
         public User(string Email, string Password, string FirstName, string LastName, int Age)
         {
-            this.Guid = Guid.NewGuid();
             this.Email = Email;
             this.Password = Password;
             this.FirstName = FirstName;
             this.LastName = LastName;
             this.Age = Age;
 
+        }
+
+        public User()
+        {
+            
         }
     }
 }

@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AlienCyborgSynergyNetwork
 {
-    internal class SynergyDBContext : DbContext
+    public class SynergyDBContext : DbContext
     {
 
         public SynergyDBContext(DbContextOptions<SynergyDBContext> options) : base(options)

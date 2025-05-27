@@ -61,10 +61,24 @@
     </ItemGroup>
 
     <ItemGroup>
+      <AndroidResource Remove="Migrations\**" />
+      <Compile Remove="Migrations\**" />
+      <Content Remove="Migrations\**" />
+      <EmbeddedResource Remove="Migrations\**" />
+      <MauiXaml Remove="Migrations\**" />
+      <None Remove="Migrations\**" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.5" />
-        <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.5">
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+          <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.5" />
+        <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.70" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="9.0.70" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.5" />
     </ItemGroup>
 
 </Project>
