@@ -1,0 +1,104 @@
+﻿/*
+ Assignment Title
+Build a Complete “Galactic Alien Cyborg Synergy Network” in .NET 9.0 MAUI Blazor Hybrid  
+—Authentication, Real-Time Streams, Ratings & Polished UX
+
+ Scenario Overview
+Earth’s “Cyborg Nexus” connects alien cyborg units for live neural synergy sessions—bio-logs, firmware updates, encrypted memory fragments. Your mission is to deliver a full-stack .NET MAUI Blazor Hybrid application (single install) that supports user authentication, session management, secure updates, bi-directional streams, multi-axis resonance ratings, and an engaging, professional UI.
+
+ Core Functional Requirements
+
+ 1. User Authentication & Authorization  
+    • Registration & Login:  
+      – New users can sign up with email + password.  
+      – Login screen with “remember me” and form validation.  
+    • Session Management:  
+      – Securely store credentials (hashed) in SQLite.  
+      – Issue JWT or maintain a secure session token in MAUI secure storage.  
+    • Logout:  
+      – Clear session token and navigate back to Login.  
+    • Role-Based Access Control:  
+      – Two roles: Operator (full access) and Viewer (read-only).  
+      – Protect pages via `[Authorize(Roles="Operator")]`.
+
+ 2. Cyborg Session Lifecycle  
+    • CRUD for `CyborgSession` records:  
+      – `record CyborgSession(Guid Id, string UnitId, SessionType Type, DateTime Start, DateTime End, string Metadata)`  
+    • Use EF Core + SQLite with Repository + Unit-of-Work patterns.  
+    • Inspect and manage the local database via SSMS or a SQLite GUI.
+
+ 3. Real-Time Neural Streams  
+    • Host a SignalR Hub (containerized or free cloud).  
+    • In-app client via `Microsoft.AspNetCore.SignalR.Client`:  
+      – Display live stream timeline with `<SessionTimeline>` component.  
+      – Strategy pattern to swap signal-processing algorithms at runtime.
+
+ 4. Secure Firmware Updates  
+    • Encrypt & sign packages (RSA/ECC).  
+    • Queue update jobs in RabbitMQ (Docker-Compose).  
+    • Orchestrate via `IHostedService` using the Command pattern.  
+    • Show animated progress bars in the UI.
+
+ 5. Multi-Axis Resonance Ratings  
+    • Rate sessions on Stability, Efficiency, Cohesion.  
+    • Submit via MediatR (Mediator pattern) with full validation.  
+    • Persist in SQLite; present analytics charts (heatmap + line graphs).
+
+ 6. Event Sourcing & CQRS  
+    • Emit domain events (SessionCreated, StreamStarted, FirmwareDeployed, Rated).  
+    • Persist in EventStoreDB (Docker image).  
+    • Build read-model projections in SQLite for fast dashboard queries.
+
+ 7. Polished Front-End & UX  
+    – **Authentication Pages**:  
+      • Responsive Login & Register with inline error messages.  
+      • “Forgot password” flow stub.  
+    – **Navigation & Layout**:  
+      • Sticky top nav with icons: Dashboard, Sessions, Streams, Ratings, Users, Settings, Logout.  
+      • Collapsible sidebar on desktop; hamburger on mobile.  
+      • Breadcrumbs for drill-downs.  
+    – **Theming & Styling**:  
+      • Light/dark toggle; system-default detection.  
+      • CSS variables for “Neon-Teal,” “Star-Gold,” “Void-Black.”  
+      • Tailwind utility classes or MudBlazor components.  
+    – **Components & Visuals**:  
+      • `<CyborgCard>` for session summaries.  
+      • `<SessionTimeline>` live stream chart.  
+      • `<RatingMatrix>` heatmap of resonance scores.  
+      • Animated toasts for real-time events (new session, rating received).  
+      • Loading skeletons and micro-animations on buttons.  
+    – **Data Interaction**:  
+      • Filter/sort sessions by UnitId, Type, Date range.  
+      • Search users by email or role.  
+      • Modal dialogs for Create/Edit forms with smooth animations.  
+    – **Accessibility**:  
+      • ARIA roles/labels on all elements.  
+      • Keyboard navigation support.  
+      • Contrast ratio ≥4.5:1.
+
+ 8. CI/CD & Packaging  
+    • GitHub Actions: build MAUI binaries (Win/Mac/Android/iOS), run tests, produce artifacts.  
+    • Single-exe installer/package; no external hosting required.
+
+ Design & Architecture Guidelines  
+ - **.NET 9.0 + C# 12**: file-scoped namespaces, `required` props, pattern matching.  
+ - **7+ Design Patterns**: Repo, Unit-of-Work, Factory, Strategy, Command, Observer, Mediator, CQRS/Event Sourcing, Adapter.  
+ - **Head First OOP**: Encapsulate variations, Program to interfaces, Open/Closed, Law of Demeter.  
+ - **Containerization**: Docker-Compose for RabbitMQ & EventStoreDB—optional local Kubernetes (K3d/Kind).  
+
+ Getting Started  
+ 1. Scaffold MAUI Blazor Hybrid: implement Authentication (Register/Login/Logout).  
+ 2. Add EF Core + SQLite → User and Session CRUD UI.  
+ 3. Layer in SignalR streaming, rating forms, and event sourcing.  
+ 4. Style UI early: establish CSS variables, layout, and key components.  
+ 5. Containerize support services and configure GitHub Actions.  
+
+ Deliverables  
+ • Full source with folders: `/Data`, `/Auth`, `/Services`, `/Components`, `/Pages`, `/wwwroot/css`  
+ • EF Migrations & `cyborg.db` schema  
+ • Docker-Compose file for RabbitMQ & EventStoreDB  
+ • README: setup steps, architecture diagram, pattern rationale  
+ • Demo video showcasing login/logout, streams, ratings, UI themes  
+
+Good luck creating your secure, full-featured Galactic Alien Cyborg Synergy Network!  
+*/
