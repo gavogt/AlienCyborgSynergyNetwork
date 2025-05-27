@@ -1,5 +1,5 @@
 ﻿@page "/register-user"
-<EditForm Model="@this" OnValidSubmit="HandleValidSubmit">
+<EditForm Model="@RegisterModel" OnValidSubmit="HandleValidSubmit">
 	<DataAnnotationsValidator />
 
 <div class="container">
@@ -27,5 +27,10 @@
 <ValidationSummary />
 </EditForm>
 @code {
+	RegisterModel RegisterModel { get; set; } = new RegisterModel();
 
+	private void HandleValidSubmit()
+	{
+		Console.WriteLine("Form submitted successfully!");
+	}
 }
