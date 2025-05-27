@@ -6,38 +6,43 @@
 <EditForm Model="@LoginModel" OnValidSubmit="HandleValidSubmit">
 	<DataAnnotationsValidator />
 	<ValidationSummary />
-	<div class="container">
-		<div class="row">
-			<div class="col-md-4">
+
+	<div class="d-flex align-items-center justify-content-center vh-100 bg-light">
+		<div class="card shadow-sm mx-auto" style="max-width:400px; width: 100%;">
+			<div class="card-header text-center bg-primary text-white">
 				<img src="images/aliencyborgsynergynetwork.png" alt="AlienCyborgSynergyNetwork Logo" class="img-fluid mb-3" />
 			</div>
-			<div class="col-md-8">
-				<div class="card shadow-sm">
-					<div class="card-header">
-						<h1>Login</h1>
-					</div>
-					<div class="card-body">
-						<label for="email" class="form-label mt-3">Email</label>
-						<input type="email" id="email" class="form-control" placeholder="Enter your email" @bind-value="LoginModel.Email" />
+			<div class="card-body p-4">
+				<div class="card-header">
+					<h1>Login</h1>
+				</div>
+				<div class="form-floating mb-3">
 
-						<label for="password">Password</label>
-						<input type="password" class="form-control mb-3" placeholder="Password" @bind-value="LoginModel.Password" />
+					<InputText type="email" id="email" class="form-control" placeholder=" " @bind-value="LoginModel.Email" />
+					<label for="email" class="form-label mt-3">Email</label>
+					<ValidationMessage For="() => LoginModel.Email"
+									   class="text-danger small mt-1" />
+				</div>
+				<div class="form-floating mb-3">
+					<label for="password">Password</label>
+					<InputText type="password" class="form-control mb-3" placeholder="Password" @bind-value="LoginModel.Password" />
+					<ValidationMessage For="() => LoginModel.Password"
+									   class="text-danger small mt-1" />
+				</div>
+				<div class="card-footer d-flex justify-content-between align-content-center">
+					<div class="form-check mb-4">
+						<InputCheckbox id="rememberme" class="form-check-input" @bind-Value="LoginModel.RememberMe" />
+						<label class="form-check-label" for="rememberme">Remember Me</label>
 					</div>
-					<div class="card-footer d-flex justify-content-between align-content-center">
-						<div class="form-check">
-							<InputCheckbox id="rememberme" class="form-check-input" @bind-Value="LoginModel.RememberMe" />
-							<label class="form-check-label" for="rememberme">Remember Me</label>
-						</div>
-						<div class="d-flex justify-content-center">
-							<button class="btn btn-primary mb-3">Login</button>
-						</div>
+					<div class="d-flex justify-content-center">
+						<button class="btn btn-primary mb-3">Login</button>
 					</div>
-					<div class="mt-3 text-danger">
-						@if (!string.IsNullOrEmpty(ErrorMessage))
-						{
-							<p>@ErrorMessage</p>
-						}
-					</div>
+				</div>
+				<div class="mt-3 text-danger">
+					@if (!string.IsNullOrEmpty(ErrorMessage))
+					{
+						<p>@ErrorMessage</p>
+					}
 				</div>
 			</div>
 		</div>
@@ -73,7 +78,7 @@
 
 		var user = await AuthService.ValidateCredentialsAsync(LoginModel.Email, LoginModel.Password);
 
-		if(user is null)
+		if (user is null)
 		{
 			ErrorMessage = "Invalid email or password.";
 			return;
