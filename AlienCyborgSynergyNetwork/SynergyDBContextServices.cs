@@ -26,7 +26,7 @@ namespace AlienCyborgSynergyNetwork
             var newUser = new User
             {
                 Email = model.Email,
-                Password = model.Password,
+                Password = PasswordHasher.Hash(model.Password),
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Age = model.Age
