@@ -1,6 +1,7 @@
 ﻿@page "/login"
 
 @inject NavigationManager NavigationManager
+@inject AuthenticatingService AuthService
 
 <EditForm Model="@LoginModel" OnValidSubmit="HandleValidSubmit">
 	<DataAnnotationsValidator />
@@ -31,6 +32,12 @@
 							<button class="btn btn-primary mb-3">Login</button>
 						</div>
 					</div>
+					<div class="mt-3 text-danger">
+						@if (!string.IsNullOrEmpty(ErrorMessage))
+						{
+							<p>@ErrorMessage</p>
+						}
+					</div>
 				</div>
 			</div>
 		</div>
@@ -38,6 +45,8 @@
 </EditForm>
 @code {
 	public LoginModel LoginModel { get; set; } = new LoginModel();
+	private string? ErrorMessage { get; set; } = string.Empty;
+
 
 	protected override void OnInitialized()
 	{
@@ -50,7 +59,7 @@
 		}
 	}
 
-	private void HandleValidSubmit()
+	private async Task HandleValidSubmit()
 	{
 		if (LoginModel.RememberMe)
 		{
@@ -59,6 +68,15 @@
 		else
 		{
 			Preferences.Remove("savedUser");
+		}
+
+
+		var user = await AuthService.ValidateCredentialsAsync(LoginModel.Email, LoginModel.Password);
+
+		if(user is null)
+		{
+			ErrorMessage = "Invalid email or password.";
+			return;
 		}
 
 		NavigationManager.NavigateTo("/", true);

@@ -27,7 +27,7 @@ namespace AlienCyborgSynergyNetwork
                 opts.UseSqlite($"Data Source={dbPath}"));
 
             builder.Services.AddScoped<SynergyDBContextServices>();
-
+            builder.Services.AddScoped<AuthenticatingService>();
             builder.Services.AddMauiBlazorWebView();
 
     #if DEBUG

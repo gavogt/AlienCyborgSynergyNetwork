@@ -56,7 +56,7 @@ namespace AlienCyborgSynergyNetwork
         public static bool Verify(string hash, string password)
         {
             // Split the hash into its components
-            var parts = hash.Split('.', 3);
+            var parts = hash.Split(':', 3);
 
             // Parse iteration on first part
             var iterations = int.Parse(parts[0]);

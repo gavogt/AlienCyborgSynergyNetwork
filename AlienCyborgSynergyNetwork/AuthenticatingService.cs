@@ -10,7 +10,7 @@ namespace AlienCyborgSynergyNetwork
     /// <summary>
     /// Service for authenticating users against the stored password hash
     /// </summary>
-    internal class AuthenticatingService
+    public class AuthenticatingService
     {
         private readonly SynergyDBContext _context;
 
