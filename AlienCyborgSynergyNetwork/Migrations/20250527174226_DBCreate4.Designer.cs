@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AlienCyborgSynergyNetwork.Migrations
 {
     [DbContext(typeof(SynergyDBContext))]
-    [Migration("20250527104848_AlienCyborgSynergyTest2")]
-    partial class AlienCyborgSynergyTest2
+    [Migration("20250527174226_DBCreate4")]
+    partial class DBCreate4
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -1,4 +1,9 @@
 ﻿@page "/register-user"
+
+@inject SynergyDBContext DbContext
+@inject SynergyDBContextServices DbContextServices
+@inject NavigationManager NavigationManager
+
 <EditForm Model="@RegisterModel" OnValidSubmit="HandleValidSubmit">
 	<DataAnnotationsValidator />
 
@@ -25,6 +30,9 @@
 						<label for="LastName">Last Name</label>
 						<input type="text" id="LastName" class="form-control mt-3" placeholder="Enter your last name" @bind-value="RegisterModel.LastName" />
 						<ValidationMessage For="@(() => RegisterModel.LastName)" />
+						<label for="Age">Age</label>
+						<input type="number" id="Age" class="form-control mt-3" placeholder="Enter your age" @bind-value="RegisterModel.Age" />
+						<ValidationMessage For="@(() => RegisterModel.Age)" />
 						<div class="mt-3">
 							<button class="btn btn-primary">Register</button>
 						</div>
@@ -32,6 +40,7 @@
 							@if (!string.IsNullOrEmpty(ErrorMessage))
 							{
 								<p>@ErrorMessage</p>
+
 							}
 						</div>
 					</div>
@@ -43,15 +52,16 @@
 </EditForm>
 @code {
 	public RegisterModel RegisterModel { get; set; } = new RegisterModel();
-	private string ErrorMessage { get; set; } = string.Empty;
+	private string? ErrorMessage { get; set; } = string.Empty;
 
-	private void HandleValidSubmit()
+	private async Task HandleValidSubmit()
 	{
-		if (RegisterModel.Password != RegisterModel.ConfirmPassword)
+
+		ErrorMessage = await DbContextServices.RegisterUserAsync(RegisterModel);
+
+		if (ErrorMessage is null)
 		{
-			ErrorMessage = "Passwords do not match.";
-			// Handle password mismatch
-			return;
+			NavigationManager.NavigateTo("/login", true);
 		}
 	}
 }

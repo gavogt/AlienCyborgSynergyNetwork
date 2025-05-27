@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AlienCyborgSynergyNetwork.Migrations
 {
     /// <inheritdoc />
-    public partial class AlienCyborgSynergyTest : Migration
+    public partial class DBCreate4 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,7 +26,12 @@ namespace AlienCyborgSynergyNetwork.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Email = table.Column<string>(type: "TEXT", nullable: false),
+                    Password = table.Column<string>(type: "TEXT", nullable: false),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: false),
+                    LastName = table.Column<string>(type: "TEXT", nullable: false),
+                    Age = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -1,5 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace AlienCyborgSynergyNetwork
 {
@@ -8,6 +11,7 @@ namespace AlienCyborgSynergyNetwork
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
+
             builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
@@ -15,18 +19,30 @@ namespace AlienCyborgSynergyNetwork
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 });
 
-            var dbPath = Path.Combine(FileSystem.AppDataDirectory, "synergy.db");
-            builder.Services.AddDbContext<SynergyDBContext>(options =>
-                options.UseSqlite($"Data Source={dbPath}"));
+            var folder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            Directory.CreateDirectory(folder);
+            var dbPath = Path.Combine(folder, "synergy.db");
+
+            builder.Services.AddDbContext<SynergyDBContext>(opts =>
+                opts.UseSqlite($"Data Source={dbPath}"));
+
+            builder.Services.AddScoped<SynergyDBContextServices>();
 
             builder.Services.AddMauiBlazorWebView();
 
-#if DEBUG
-    		builder.Services.AddBlazorWebViewDeveloperTools();
-    		builder.Logging.AddDebug();
-#endif
+    #if DEBUG
+            builder.Services.AddBlazorWebViewDeveloperTools();
+            builder.Logging.AddDebug();
+    #endif
 
-            return builder.Build();
+            var app = builder.Build();
+
+            using var scope = app.Services.CreateScope();
+            var ctx = scope.ServiceProvider.GetRequiredService<SynergyDBContext>();
+
+            ctx.Database.Migrate();
+
+            return app;
         }
     }
 }
