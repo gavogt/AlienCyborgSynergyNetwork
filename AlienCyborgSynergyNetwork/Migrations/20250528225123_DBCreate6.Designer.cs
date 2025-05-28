@@ -3,6 +3,7 @@ using System;
 using AlienCyborgSynergyNetwork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AlienCyborgSynergyNetwork.Migrations
 {
     [DbContext(typeof(SynergyDBContext))]
-    partial class SynergyDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250528225123_DBCreate6")]
+    partial class DBCreate6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.5");

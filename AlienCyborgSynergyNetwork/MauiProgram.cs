@@ -28,6 +28,7 @@ namespace AlienCyborgSynergyNetwork
 
             builder.Services.AddScoped<SynergyDBContextServices>();
             builder.Services.AddScoped<AuthenticatingService>();
+            builder.Services.AddSingleton<SessionState>();
             builder.Services.AddMauiBlazorWebView();
 
     #if DEBUG

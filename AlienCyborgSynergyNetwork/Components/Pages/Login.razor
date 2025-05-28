@@ -52,6 +52,8 @@
 	public LoginModel LoginModel { get; set; } = new LoginModel();
 	private string? ErrorMessage { get; set; } = string.Empty;
 
+	[CascadingParameter]
+	SessionState? SessionState { get; set; }
 
 	protected override void OnInitialized()
 	{
@@ -83,6 +85,11 @@
 			ErrorMessage = "Invalid email or password.";
 			return;
 		}
+
+		if (user != null && SessionState != null){
+			SessionState.CurrentUser = user;
+		}
+
 
 		NavigationManager.NavigateTo("/", true);
 	}

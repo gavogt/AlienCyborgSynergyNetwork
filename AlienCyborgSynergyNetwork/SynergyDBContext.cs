@@ -15,7 +15,6 @@ namespace AlienCyborgSynergyNetwork
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<SessionState> Sessions { get; set; }
 
     }
 }

@@ -9,12 +9,6 @@ namespace AlienCyborgSynergyNetwork
 {
     public class SessionState
     {
-        [Key]
-        public Guid Id { get; set; } = Guid.NewGuid();
-
-        public SessionState()
-        {
-            
-        }
+        public User? CurrentUser { get; set; }
     }
 }
