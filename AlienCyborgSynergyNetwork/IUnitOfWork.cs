@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace AlienCyborgSynergyNetwork
 {
-    internal interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
+        ICyborgSessionRepository Sessions { get; }
+
+        /// <summary>
+        /// Commits all ADD/UPDATE/DELETE in a single transaction.
+        /// </summary>
+        /// <returns>An int</returns>
+        Task<int> SaveChangesAsync();
     }
 }

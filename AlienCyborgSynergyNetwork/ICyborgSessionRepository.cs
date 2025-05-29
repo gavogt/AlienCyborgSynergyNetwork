@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AlienCyborgSynergyNetwork
 {
-    internal interface ICyborgSessionRepository
+    public interface ICyborgSessionRepository
     {
         Task AddAsync(CyborgSession session);
         Task<CyborgSession?> GetByIdAsync(Guid id);
