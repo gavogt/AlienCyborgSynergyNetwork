@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace AlienCyborgSynergyNetwork
 {
-    internal class CyborgSession
-    {
-    }
+    public record CyborgSession
+    (
+            Guid Id,
+            string UnitId,
+            SessionType Type,
+            DateTime StartTime,
+            DateTime EndTime,
+            string Metadata
+    );
 }
