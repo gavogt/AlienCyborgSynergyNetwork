@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace AlienCyborgSynergyNetwork
 {
-    public class SessionType
+    public enum SessionType
     {
+        NeuralStream,
+        FirmwareUpdate,
+        BioLog,
+        Diagnostics
     }
 }
