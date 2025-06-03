@@ -26,9 +26,14 @@ namespace AlienCyborgSynergyNetwork
             builder.Services.AddDbContext<SynergyDBContext>(opts =>
                 opts.UseSqlite($"Data Source={dbPath}"));
 
+            var dbPathCyborgSession = Path.Combine(folder, "cyborg.db");
+            builder.Services.AddDbContext<CyborgSessionDBContext>(opts =>
+                opts.UseSqlite($"Data Source={dbPathCyborgSession}"));
+
             builder.Services.AddScoped<SynergyDBContextServices>();
             builder.Services.AddScoped<AuthenticatingService>();
             builder.Services.AddSingleton<SessionState>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddMauiBlazorWebView();
 
     #if DEBUG

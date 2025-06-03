@@ -11,9 +11,9 @@ namespace AlienCyborgSynergyNetwork
     {
         public DbSet<CyborgSession> CyborgSessions { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public CyborgSessionDBContext(DbContextOptions<CyborgSessionDBContext> options)
+            : base(options)
         {
-            optionsBuilder.UseSqlite($"Filename={Path.Combine(FileSystem.AppDataDirectory, "cyborg.db")}");
         }
     }
 }
