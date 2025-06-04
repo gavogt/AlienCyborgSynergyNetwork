@@ -1,0 +1,86 @@
+﻿@page "/sessions"
+@inject IUnitOfWork Uow
+@inject NavigationManager NavigationManager
+
+<h3>All Cyborg Sessions</h3>
+<button class="btn btn-primary mb-3" @onclick="CreateNew">Create new sessions</button>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				Unit
+			</th>
+			<th>
+				Type
+			</th>
+			<th>
+				Start
+			</th>
+			<th>
+				End
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+
+		@if (_sessions != null)
+		{
+			@foreach (var s in _sessions)
+			{
+				<tr>
+					<td>
+						@s.UnitId
+					</td>
+
+					<td>
+						@s.Type
+					</td>
+
+					<td>
+						@s.StartTime
+					</td>
+
+					<td>
+						@s.EndTime
+					</td>
+
+					<td>
+						<button class="btn btn-sm btn-link" @onclick="() => Edit(s.Id)">Edit</button>
+						<button class="btn btn-sm btn-danger" @onclick="() => Delete(s.Id)">Delete</button>
+					</td>
+				</tr>
+			}
+		}
+	</tbody>
+</table>
+@code {
+	private List<CyborgSession>? _sessions;
+
+	protected override async Task OnInitializedAsync()
+	{
+		_sessions = await Uow.Sessions.ListAsync();
+
+	}
+
+	void Edit(Guid id)
+	{
+		NavigationManager.NavigateTo($"/edit/{id}");
+	}
+
+	async Task Delete(Guid id)
+	{
+		var item = await Uow.Sessions.GetByIdAsync(id);
+		if (item is not null)
+		{
+			Uow.Sessions.Delete(item);
+			await Uow.SaveChangesAsync();
+			_sessions = await Uow.Sessions.ListAsync();
+		}
+	}
+	void CreateNew()
+	{
+		NavigationManager.NavigateTo("/ edit");
+	}
+}
