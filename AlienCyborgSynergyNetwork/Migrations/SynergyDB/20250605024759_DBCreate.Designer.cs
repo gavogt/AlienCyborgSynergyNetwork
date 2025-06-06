@@ -3,46 +3,51 @@ using System;
 using AlienCyborgSynergyNetwork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace AlienCyborgSynergyNetwork.Migrations.CyborgSessionDB
+namespace AlienCyborgSynergyNetwork.Migrations.SynergyDB
 {
-    [DbContext(typeof(CyborgSessionDBContext))]
-    partial class CyborgSessionDBContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(SynergyDBContext))]
+    [Migration("20250605024759_DBCreate")]
+    partial class DBCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.5");
 
-            modelBuilder.Entity("AlienCyborgSynergyNetwork.CyborgSession", b =>
+            modelBuilder.Entity("AlienCyborgSynergyNetwork.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Age")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<string>("Metadata")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("StartTime")
+                    b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
-                    b.Property<string>("UnitId")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("CyborgSessions");
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

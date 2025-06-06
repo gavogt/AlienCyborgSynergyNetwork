@@ -5,7 +5,7 @@
 namespace AlienCyborgSynergyNetwork.Migrations
 {
     /// <inheritdoc />
-    public partial class DBCreate8 : Migration
+    public partial class EditSessionTest5 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

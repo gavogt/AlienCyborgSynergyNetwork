@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -36,17 +37,28 @@ namespace AlienCyborgSynergyNetwork
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddMauiBlazorWebView();
 
-    #if DEBUG
+#if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
             builder.Logging.AddDebug();
-    #endif
+#endif
 
             var app = builder.Build();
+            using (var scope = app.Services.CreateScope())
+            {
+                // a) SynergyDBContext
+                var synergyCtx = scope.ServiceProvider.GetRequiredService<SynergyDBContext>();
+                if (synergyCtx.Database.GetPendingMigrations().Any())
+                {
+                    synergyCtx.Database.Migrate();
+                }
 
-            using var scope = app.Services.CreateScope();
-            var ctx = scope.ServiceProvider.GetRequiredService<SynergyDBContext>();
-
-            ctx.Database.Migrate();
+                // b) CyborgSessionDBContext
+                var cyborgCtx = scope.ServiceProvider.GetRequiredService<CyborgSessionDBContext>();
+                if (cyborgCtx.Database.GetPendingMigrations().Any())
+                {
+                    cyborgCtx.Database.Migrate();
+                }
+            }
 
             return app;
         }

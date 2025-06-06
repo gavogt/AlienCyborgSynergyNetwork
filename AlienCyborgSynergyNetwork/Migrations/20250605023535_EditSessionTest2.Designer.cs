@@ -10,9 +10,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AlienCyborgSynergyNetwork.Migrations
 {
-    [DbContext(typeof(SynergyDBContext))]
-    [Migration("20250528225123_DBCreate6")]
-    partial class DBCreate6
+    [DbContext(typeof(CyborgSessionDBContext))]
+    [Migration("20250605023535_EditSessionTest2")]
+    partial class EditSessionTest2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,34 +20,32 @@ namespace AlienCyborgSynergyNetwork.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.5");
 
-            modelBuilder.Entity("AlienCyborgSynergyNetwork.User", b =>
+            modelBuilder.Entity("AlienCyborgSynergyNetwork.CyborgSession", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Age")
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Metadata")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Type")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Password")
+                    b.Property<string>("UnitId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("CyborgSessions");
                 });
 #pragma warning restore 612, 618
         }

@@ -3,19 +3,16 @@ using System;
 using AlienCyborgSynergyNetwork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace AlienCyborgSynergyNetwork.Migrations.CyborgSessionDB
+namespace AlienCyborgSynergyNetwork.Migrations
 {
     [DbContext(typeof(CyborgSessionDBContext))]
-    [Migration("20250603161109_DBCreate8")]
-    partial class DBCreate8
+    partial class CyborgSessionDBContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.5");

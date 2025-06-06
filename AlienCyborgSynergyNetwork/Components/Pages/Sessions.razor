@@ -51,12 +51,21 @@
 						<button class="btn btn-sm btn-danger" @onclick="() => Delete(s.Id)">Delete</button>
 					</td>
 				</tr>
+				@if (!string.IsNullOrEmpty(ErrorMessage))
+				{
+					<tr>
+						<td colspan="5" class="text-danger">
+							@ErrorMessage
+						</td>
+					</tr>
+				}
 			}
 		}
 	</tbody>
 </table>
 @code {
-	private List<CyborgSession>? _sessions;
+	private List<CyborgSession>? _sessions = new();
+	private string ErrorMessage { get; set; } = string.Empty;
 
 	protected override async Task OnInitializedAsync()
 	{
@@ -66,7 +75,14 @@
 
 	void Edit(Guid id)
 	{
-		NavigationManager.NavigateTo($"/edit/{id}");
+		try
+		{
+			NavigationManager.NavigateTo($"/edit/{id}");
+		}
+		catch (Exception ex)
+		{
+			ErrorMessage = $"Error navigating to edit page: {ex.Message}";
+		}
 	}
 
 	async Task Delete(Guid id)
@@ -81,6 +97,6 @@
 	}
 	void CreateNew()
 	{
-		NavigationManager.NavigateTo("/ edit");
+		NavigationManager.NavigateTo("/edit");
 	}
 }
