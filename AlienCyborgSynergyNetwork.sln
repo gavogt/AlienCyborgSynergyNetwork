@@ -5,6 +5,8 @@ VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlienCyborgSynergyNetwork", "AlienCyborgSynergyNetwork\AlienCyborgSynergyNetwork.csproj", "{907DF7E0-034F-4951-A213-62447AA21619}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralHub", "NeuralHub\NeuralHub.csproj", "{B1E6B2A7-E2D2-4A0C-BFF1-A7FBF2D90BCB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{907DF7E0-034F-4951-A213-62447AA21619}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{907DF7E0-034F-4951-A213-62447AA21619}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{907DF7E0-034F-4951-A213-62447AA21619}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1E6B2A7-E2D2-4A0C-BFF1-A7FBF2D90BCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1E6B2A7-E2D2-4A0C-BFF1-A7FBF2D90BCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1E6B2A7-E2D2-4A0C-BFF1-A7FBF2D90BCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1E6B2A7-E2D2-4A0C-BFF1-A7FBF2D90BCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
