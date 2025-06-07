@@ -1,6 +1,9 @@
+using NeuralHub;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddSignalR();
 var app = builder.Build();
 
-app.MapGet("/", () => "Hello World!");
+app.MapHub<StreamingHub>("/hubs/stream");
 
 app.Run();
