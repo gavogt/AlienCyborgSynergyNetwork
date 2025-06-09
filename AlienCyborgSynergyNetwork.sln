@@ -5,7 +5,7 @@ VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlienCyborgSynergyNetwork", "AlienCyborgSynergyNetwork\AlienCyborgSynergyNetwork.csproj", "{907DF7E0-034F-4951-A213-62447AA21619}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeuralHub", "NeuralHub\NeuralHub.csproj", "{B1E6B2A7-E2D2-4A0C-BFF1-A7FBF2D90BCB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hubs", "NeuralHub\Hubs.csproj", "{B1E6B2A7-E2D2-4A0C-BFF1-A7FBF2D90BCB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace AlienCyborgSynergyNetwork
 {
@@ -36,6 +37,11 @@ namespace AlienCyborgSynergyNetwork
             builder.Services.AddSingleton<SessionState>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddMauiBlazorWebView();
+            builder.Services.AddSingleton<HubConnection>(sp =>
+                new HubConnectionBuilder()
+                    .WithUrl("https://127.0.0.1:7142/neuralhub")
+                    .Build());
+
 
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();

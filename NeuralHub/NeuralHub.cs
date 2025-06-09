@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 
-namespace NeuralHub
+namespace Hubs
 {
-    public class StreamingHub : Hub
+    public class NeuralHub : Hub
     {
     }
 }
