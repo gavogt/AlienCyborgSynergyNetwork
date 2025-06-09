@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AlienCyborgSynergyNetwork
 {
-    internal class SynergyDBContextServices
+    public class SynergyDBContextServices
     {
         private readonly SynergyDBContext _context;
 

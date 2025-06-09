@@ -77,4 +77,8 @@
       <Folder Include="Migrations\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\AlienCyborgSynergyNetwork.Shared\AlienCyborgSynergyNetwork.Shared.csproj" />
+    </ItemGroup>
+
 </Project>
