@@ -13,7 +13,9 @@ namespace AlienCyborgSynergyNetwork
         public SessionType Type { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public string Metadata { get; set; }
+        public string? Metadata { get; set; }
+
+        public ICollection<SensorReading> SensorReadings { get; set; } = new List<SensorReading>();
 
     }
 }
