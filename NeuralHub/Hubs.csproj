@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MQTTnet" Version="3.0.16" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\AlienCyborgSynergyNetwork.Shared\AlienCyborgSynergyNetwork.Shared.csproj" />
   </ItemGroup>
 
