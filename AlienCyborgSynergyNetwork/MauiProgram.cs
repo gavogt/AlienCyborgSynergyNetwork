@@ -39,7 +39,7 @@ namespace AlienCyborgSynergyNetwork
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddSingleton<HubConnection>(sp =>
                 new HubConnectionBuilder()
-                    .WithUrl("https://127.0.0.1:7142/neuralhub")
+                    .WithUrl("https://localhost:7142/neuralhub")
                     .WithAutomaticReconnect()
                     .Build());
 
