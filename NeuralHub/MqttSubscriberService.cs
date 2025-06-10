@@ -1,13 +1,13 @@
-﻿using MQTTnet;                    // for MqttFactory
+﻿using AlienCyborgSynergyNetwork;
+using AlienCyborgSynergyNetwork.Shared;
+using Microsoft.AspNetCore.SignalR;       // for SignalR
+using MQTTnet;                    // for MqttFactory
 using MQTTnet.Client;             // for IMqttClient
 using MQTTnet.Client.Options;     // for MqttClientOptionsBuilder
-using MQTTnet.Protocol;
-
-using Microsoft.Extensions.Hosting;       // for BackgroundService
-using Microsoft.Extensions.DependencyInjection; // for CreateScope, GetRequiredService
-using Microsoft.Extensions.Configuration;  // for IConfiguration
-using Microsoft.AspNetCore.SignalR;       // for SignalR
-using AlienCyborgSynergyNetwork;        // for IHubContext<NeuralHub>
+using MQTTnet.Client.Subscribing;
+using MQTTnet.Formatter;        // for IHubContext<NeuralHub>
+using System.Text;
+using System.Text.Json;
 
 namespace Hubs
 {
@@ -15,28 +15,48 @@ namespace Hubs
     {
         private readonly IServiceProvider _sp;
         private readonly IHubContext<NeuralHub> _hubContext;
-        private readonly string _mqttHost;
+        private readonly IMqttClientOptions _mqttOptions;
 
         public MqttSubscriberService(IServiceProvider sp, IHubContext<NeuralHub> hub, IConfiguration cfg)
         {
             _sp = sp;
             _hubContext = hub;
-            _mqttHost = cfg["MqttHost"] ?? "localhost";
+            _mqttOptions = new MqttClientOptionsBuilder()
+                .WithTcpServer("192.168.0.204", 1883)
+                .WithProtocolVersion(MqttProtocolVersion.V311)
+                .Build();
+
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var client = new MqttFactory()
-                .CreateMqttClient();
-            var opts = new MqttClientOptionsBuilder()
-                .WithTcpServer("192.168.1.16", 1883)
+            var client = new MqttFactory().CreateMqttClient();
+            await client.ConnectAsync(_mqttOptions, cancellationToken: stoppingToken);
+
+            var options = new MqttClientSubscribeOptionsBuilder()
+                .WithTopicFilter(f => f
+                    .WithTopic("esp8266/#")
+                    .WithAtMostOnceQoS()
+                )
                 .Build();
 
-            await client.ConnectAsync(opts, stoppingToken);
+            await client.SubscribeAsync(options, stoppingToken);
 
-            await client.SubscribeAsync("esp8266/#", MqttQualityOfServiceLevel.AtMostOnce);
-            client.UseApplicationMessageReceivedHandler(e => HandleMessage(e));
+            client.UseApplicationMessageReceivedHandler(async e =>
+            {
+                byte[] payloadBytes = e.ApplicationMessage.Payload;
 
+                string json = Encoding.UTF8.GetString(payloadBytes);
+
+                var session = JsonSerializer.Deserialize<CyborgSession>(json);
+                if (session is null) return;
+
+
+                await _hubContext.Clients.All.SendAsync("ReceiveSession", session, stoppingToken);
+
+            });
+
+            client.UseApplicationMessageReceivedHandler(HandleMessage);
             await Task.Delay(Timeout.Infinite, stoppingToken);
 
         }
@@ -47,24 +67,20 @@ namespace Hubs
             var payload = e.ApplicationMessage.Payload == null
                                 ? string.Empty
                 : System.Text.Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
-            var session = new CyborgSession
+            var reading = new SensorReading
             {
-                Id = Guid.NewGuid(),
-                UnitId = topic,
-                Type = topic.Contains("neuralstream")
-                    ? SessionType.NeuralStream
-                    : SessionType.BioLog,
-                StartTime = DateTime.UtcNow,
-                EndTime = DateTime.UtcNow.AddMinutes(5), // Example end time, adjust as needed
-                Metadata = payload
+                ID = Guid.NewGuid(),
+                Topic = e.ApplicationMessage.Topic,
+                Payload = payload,
+                Timestamp = DateTime.UtcNow,
             };
 
             using var scope = _sp.CreateScope();
-            var uow = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
-            await uow.Sessions.AddAsync(session);
+            var uow = scope.ServiceProvider.GetRequiredService<ISensorUnitOfWork>();
+            await uow.Sensors.AddAsync(reading);
             await uow.SaveChangesAsync();
 
-            await _hubContext.Clients.All.SendAsync("ReceiveSession", session);
+            await _hubContext.Clients.All.SendAsync("ReceiveSession", reading);
         }
     }
 

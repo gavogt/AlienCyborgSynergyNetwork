@@ -8,16 +8,10 @@ namespace AlienCyborgSynergyNetwork
 {
     public class SensorReading
     {
-        public int ID { get; set; }
+        public Guid ID { get; set; }
         public DateTime Timestamp { get; set; }
         public string Topic { get; set; } = default!;
         public string Payload { get; set; } = default!;
-
-        // Foreign Key
-        public Guid SessionId { get; set; }
-
-        // EF Navigation Property
-        public CyborgSession Session { get; set; } = default!;
 
     }
 }

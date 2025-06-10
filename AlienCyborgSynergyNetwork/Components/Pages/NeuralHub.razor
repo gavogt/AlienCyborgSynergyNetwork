@@ -1,27 +1,59 @@
-﻿@page "/neuralhub"
-@inject IUnitOfWork Uow
+﻿@using AlienCyborgSynergyNetwork.Shared;
+
+@page "/neuralhub"
+@inject ISensorUnitOfWork SensorUow
 @inject HubConnection Hub
 
-<h3>Live Neural Stream</h3>
+<h3>Live Sensor Readings</h3>
+@if (_readings is null)
+{
+    <p><em>Loading…</em></p>
+}
+else if (_readings.Count == 0)
+{
+    <p>No readings yet…</p>
+}
+else
+{
+    <table class="table">
+        <thead><tr><th>ID</th><th>Time</th><th>Topic</th><th>Payload</th></tr></thead>
+        <tbody>
+            @foreach (var r in _readings)
+            {
+                <tr>
+                    <td>@r.ID</td>
+                    <td>@r.Timestamp:g</td>
+                    <td>@r.Topic</td>
+                    <td>@r.Payload</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 
 @code {
-	private List<CyborgSession>? _sessions;
+    private List<SensorReading> _readings = null!;
 
-	protected override async Task OnInitializedAsync()
-	{
-		_sessions = (await Uow.Sessions.ListAsync())
-					.Where(s => s.Type == SessionType.NeuralStream)
-					.ToList();
+    protected override async Task OnInitializedAsync()
+    {
+        // initial load
+        _readings = (await SensorUow.Sensors.ListAsync())
+            .OrderByDescending(r => r.Timestamp)
+            .Take(50)
+            .ToList();
 
-		Hub.On<CyborgSession>("ReceiveSession", session =>
-		{
-			if (session.Type == SessionType.NeuralStream)
-			{
-				_sessions!.Add(session);
-				StateHasChanged();
-			}
-		});
+        // subscribe to SignalR
+        Hub.On<SensorReading>("ReceiveSession", reading =>
+        {
+            InvokeAsync(() =>
+            {
+                _readings.Insert(0, reading);
+                if (_readings.Count > 200) _readings.RemoveAt(200);
+                StateHasChanged();
+            });
+        });
 
-		await Hub.StartAsync();
-	}
+        if (Hub.State == HubConnectionState.Disconnected)
+            await Hub.StartAsync();
+    }
 }

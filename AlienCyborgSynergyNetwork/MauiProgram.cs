@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.SignalR.Client;
+using AlienCyborgSynergyNetwork.Shared;
 
 namespace AlienCyborgSynergyNetwork
 {
@@ -25,6 +26,8 @@ namespace AlienCyborgSynergyNetwork
             Directory.CreateDirectory(folder);
             var dbPath = Path.Combine(folder, "synergy.db");
 
+            var dbPathSensor = Path.Combine(folder, "sensor.db");
+
             builder.Services.AddDbContext<SynergyDBContext>(opts =>
                 opts.UseSqlite($"Data Source={dbPath}"));
 
@@ -32,10 +35,14 @@ namespace AlienCyborgSynergyNetwork
             builder.Services.AddDbContext<CyborgSessionDBContext>(opts =>
                 opts.UseSqlite($"Data Source={dbPathCyborgSession}"));
 
+            builder.Services.AddDbContext<SensorDBContext>(opts =>
+            opts.UseSqlite($"Data Source={dbPathSensor}"));
+
             builder.Services.AddScoped<SynergyDBContextServices>();
             builder.Services.AddScoped<AuthenticatingService>();
             builder.Services.AddSingleton<SessionState>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<ISensorUnitOfWork, SensorUnitOfWork>();
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddSingleton<HubConnection>(sp =>
                 new HubConnectionBuilder()
