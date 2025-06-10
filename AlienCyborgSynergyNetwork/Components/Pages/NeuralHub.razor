@@ -1,4 +1,27 @@
-﻿
-@code {
+﻿@page "/neuralhub"
+@inject IUnitOfWork Uow
+@inject HubConnection Hub
 
+<h3>Live Neural Stream</h3>
+
+@code {
+	private List<CyborgSession>? _sessions;
+
+	protected override async Task OnInitializedAsync()
+	{
+		_sessions = (await Uow.Sessions.ListAsync())
+					.Where(s => s.Type == SessionType.NeuralStream)
+					.ToList();
+
+		Hub.On<CyborgSession>("ReceiveSession", session =>
+		{
+			if (session.Type == SessionType.NeuralStream)
+			{
+				_sessions!.Add(session);
+				StateHasChanged();
+			}
+		});
+
+		await Hub.StartAsync();
+	}
 }

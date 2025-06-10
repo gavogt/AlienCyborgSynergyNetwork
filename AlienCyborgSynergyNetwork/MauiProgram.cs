@@ -40,6 +40,7 @@ namespace AlienCyborgSynergyNetwork
             builder.Services.AddSingleton<HubConnection>(sp =>
                 new HubConnectionBuilder()
                     .WithUrl("https://127.0.0.1:7142/neuralhub")
+                    .WithAutomaticReconnect()
                     .Build());
 
 
