@@ -21,6 +21,7 @@ namespace AlienCyborgSynergyNetwork.Shared
         {
             return _context.SaveChangesAsync();
         }
+
         public void Dispose()
         {
             _context.Dispose();
