@@ -30,6 +30,7 @@ namespace Hubs
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            // Create and connect to MQTT broker
             var client = new MqttFactory().CreateMqttClient();
             await client.ConnectAsync(_mqttOptions, cancellationToken: stoppingToken);
 
@@ -40,7 +41,9 @@ namespace Hubs
                 )
                 .Build();
 
+            // Subscribe to topics
             await client.SubscribeAsync(options, stoppingToken);
+
 
             client.UseApplicationMessageReceivedHandler(async e =>
             {
@@ -48,11 +51,9 @@ namespace Hubs
 
                 string json = Encoding.UTF8.GetString(payloadBytes);
 
+                // Deserialize the JSON payload into a CyborgSession object
                 var session = JsonSerializer.Deserialize<CyborgSession>(json);
                 if (session is null) return;
-
-
-                await _hubContext.Clients.All.SendAsync("ReceiveSession", session, stoppingToken);
 
             });
 
@@ -63,10 +64,13 @@ namespace Hubs
 
         private async Task HandleMessage(MqttApplicationMessageReceivedEventArgs e)
         {
+            // Read Topic and Payload
             var topic = e.ApplicationMessage.Topic;
             var payload = e.ApplicationMessage.Payload == null
                                 ? string.Empty
                 : System.Text.Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+
+            // Create a new SensorReading with GUID, topic, payload, and timestamp
             var reading = new SensorReading
             {
                 ID = Guid.NewGuid(),
@@ -75,11 +79,15 @@ namespace Hubs
                 Timestamp = DateTime.UtcNow,
             };
 
+            // Retrieve ISensorUnitOfWork from the service provider
             using var scope = _sp.CreateScope();
             var uow = scope.ServiceProvider.GetRequiredService<ISensorUnitOfWork>();
+
+            // Save sensors reading to the database
             await uow.Sensors.AddAsync(reading);
             await uow.SaveChangesAsync();
 
+            // Broadcast to all SignalR clients
             await _hubContext.Clients.All.SendAsync("ReceiveSession", reading);
         }
     }
