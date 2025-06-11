@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AlienCyborgSynergyNetwork.Shared
 {
-    public class FirmwareDBContext
+    public class FirmwareDBContext : DbContext
     {
         public DbSet<FirmwareImage> FirmwareImages { get; set; } = null!;
     }

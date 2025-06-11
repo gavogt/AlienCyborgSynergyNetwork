@@ -8,7 +8,7 @@ namespace AlienCyborgSynergyNetwork.Shared
 {
     public interface IFirmwareUnitOfWork : IDisposable
     {
-        IFirmwareRepository FirmwareRepository { get; }
+        IFirmwareRepository Firmware { get; }
         Task<int> SaveChangesAsync();
     }
 }
