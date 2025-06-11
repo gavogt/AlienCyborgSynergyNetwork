@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AlienCyborgSynergyNetwork.Shared
 {
-    internal class FirmwareImage
+    public class FirmwareImage
     {
         public int ID { get; set; }
         public string Version { get; set; } = default!;
