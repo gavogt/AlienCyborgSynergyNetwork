@@ -10,5 +10,10 @@ namespace AlienCyborgSynergyNetwork.Shared
     public class FirmwareDBContext : DbContext
     {
         public DbSet<FirmwareImage> FirmwareImages { get; set; } = null!;
+
+        public FirmwareDBContext(DbContextOptions<FirmwareDBContext> options)
+            : base(options)
+        {
+        }
     }
 }
