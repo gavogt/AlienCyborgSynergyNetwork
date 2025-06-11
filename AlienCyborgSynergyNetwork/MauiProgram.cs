@@ -24,10 +24,9 @@ namespace AlienCyborgSynergyNetwork
 
             var folder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             Directory.CreateDirectory(folder);
+
+            // Registering the DbContexts
             var dbPath = Path.Combine(folder, "synergy.db");
-
-            var dbPathSensor = Path.Combine(folder, "sensor.db");
-
             builder.Services.AddDbContext<SynergyDBContext>(opts =>
                 opts.UseSqlite($"Data Source={dbPath}"));
 
@@ -35,14 +34,22 @@ namespace AlienCyborgSynergyNetwork
             builder.Services.AddDbContext<CyborgSessionDBContext>(opts =>
                 opts.UseSqlite($"Data Source={dbPathCyborgSession}"));
 
+            var dbPathFirmware = Path.Combine(folder, "firmware.db");
+            builder.Services.AddDbContext<FirmwareDBContext>(opts =>
+                opts.UseSqlite($"Data Source={dbPathFirmware}"));
+
+            var dbPathSensor = Path.Combine(folder, "sensor.db");
             builder.Services.AddDbContext<SensorDBContext>(opts =>
             opts.UseSqlite($"Data Source={dbPathSensor}"));
 
+            // Registering the repositories and services
             builder.Services.AddScoped<SynergyDBContextServices>();
             builder.Services.AddScoped<AuthenticatingService>();
             builder.Services.AddSingleton<SessionState>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<ISensorUnitOfWork, SensorUnitOfWork>();
+            builder.Services.AddScoped<IFirmwareUnitOfWork, FirmwareUnitOfWork>();
+            builder.Services.AddScoped<IFirmwareRepository, FirmwareRepository>();
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddSingleton<HubConnection>(sp =>
                 new HubConnectionBuilder()

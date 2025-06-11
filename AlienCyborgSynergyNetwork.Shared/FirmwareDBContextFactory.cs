@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AlienCyborgSynergyNetwork.Shared
 {
-    internal class FirmwareDBContextFactory : IDesignTimeDbContextFactory<FirmwareDBContext>
+    public class FirmwareDBContextFactory : IDesignTimeDbContextFactory<FirmwareDBContext>
     {
         public FirmwareDBContext CreateDbContext(string[] args)
         {
