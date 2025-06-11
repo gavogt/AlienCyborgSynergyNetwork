@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hubs", "NeuralHub\Hubs.cspr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlienCyborgSynergyNetwork.Shared", "AlienCyborgSynergyNetwork.Shared\AlienCyborgSynergyNetwork.Shared.csproj", "{91507858-6084-4943-8FA3-40E05FE7E7BD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirmwareDistributionService", "FirmwareDistributionService\FirmwareDistributionService.csproj", "{97EC65C9-F685-4328-9283-13691E8DA5B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{91507858-6084-4943-8FA3-40E05FE7E7BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91507858-6084-4943-8FA3-40E05FE7E7BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91507858-6084-4943-8FA3-40E05FE7E7BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97EC65C9-F685-4328-9283-13691E8DA5B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97EC65C9-F685-4328-9283-13691E8DA5B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97EC65C9-F685-4328-9283-13691E8DA5B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97EC65C9-F685-4328-9283-13691E8DA5B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
