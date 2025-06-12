@@ -1,12 +1,15 @@
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include <DHT.h>
+#include <ESP8266HTTPClient.h>
+#include <ESP8266httpUpdate.h>
 
 // Ultrasonic requires 5v which isn't available on the ESP8266 12e
 // Wi-Fi & MQTT
 const char* SSID = "YourSSID";
 const char* PASS = "YourPassword";
 const char* MQTT_SERVER = "192.168.1.42";
+const char* firmware_url = "http://yourserver.com/firmware/firmware.bin";
 
 // Pins
 #define DHT_PIN   D2
@@ -39,7 +42,22 @@ void setup() {
 
   WiFi.begin(SSID, PASS);
   while (WiFi.status() != WL_CONNECTED) delay(500);
+
   mqtt.setServer(MQTT_SERVER, 1883);
+
+  t_httpUpdate_return ret = ESPhttpUpdate.update(wifiClient, String(firmware_url));
+
+  switch(ret){
+    case HTTP_UPDATE_FAILED:
+      Serial.printf("HTTP update failed: %s\n", ESPhttpUpdate.getLastErrorString().c_str());
+      break;
+    case HTTP_UPDATE_NO_UPDATES:
+      Serial.println("No updates available.");
+      break;
+    case HTTP_UPDATE_OK:
+      Serial.println("Update successful!");
+      break;
+  }
 }
 
 float getDistanceCM() {
