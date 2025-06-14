@@ -1,7 +1,7 @@
 ﻿@page "/firmware"
 @inject HttpClient client
 
-<h3>UploadFirmware</h3>
+<h3>Upload Firmware</h3>
 
 <input @bind="version" placeholder="Version" class="form-checkcarousel-control-next mb-2" />
 <InputFile OnChange="e => file = e.File" class="mb-2" />
@@ -15,7 +15,7 @@
 }
 <hr />
 
-<a href="firmware/latest" target="_blank" class="btn btn-secondary">
+<a href="api/firmware/latest" target="_blank" class="btn btn-secondary">
 	Download latest firmware
 </a>
 
@@ -39,7 +39,7 @@
 		content = new MultipartFormDataContent
 		{
 			{new StringContent(version), "version"},
-			{new StreamContent(file.OpenReadStream(maxAllowedSize: 1024 * 1024 * 10)), file.Name}
+			{new StreamContent(file.OpenReadStream(maxAllowedSize: 1024 * 1024 * 10)), "firmware",file.Name}
 		};
 
 

@@ -1,5 +1,9 @@
+using AlienCyborgSynergyNetwork.Shared;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore.Sqlite;
+using Microsoft.EntityFrameworkCore.Design;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.UseUrls("http://192.168.0.179:5001");
@@ -8,6 +12,12 @@ builder.WebHost.UseUrls("http://192.168.0.179:5001");
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+var folder = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+var dbPath = Path.Combine(folder, "firmware.db");
+builder.Services.AddDbContext<FirmwareDBContext>(opts =>
+    opts.UseSqlite($"Data Source={dbPath}"));
+
+builder.Services.AddScoped<IFirmwareUnitOfWork, FirmwareUnitOfWork>();
 
 var app = builder.Build();
 
