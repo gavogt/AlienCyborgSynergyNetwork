@@ -56,6 +56,11 @@ namespace AlienCyborgSynergyNetwork
                     .WithUrl("https://localhost:7142/neuralhub")
                     .WithAutomaticReconnect()
                     .Build());
+            builder.Services.AddScoped(sp =>
+            new HttpClient
+            {
+                BaseAddress = new Uri("http://192.168.0.179:5001")
+            });
 
 
 #if DEBUG

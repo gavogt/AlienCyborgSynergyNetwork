@@ -1,5 +1,56 @@
-﻿<h3>UploadFirmware</h3>
+﻿@page "/firmware"
+@inject HttpClient client
+
+<h3>UploadFirmware</h3>
+
+<input @bind="version" placeholder="Version" class="form-checkcarousel-control-next mb-2" />
+<InputFile OnChange="e => file = e.File" class="mb-2" />
+
+<button class="btn btn-primary" @onclick="Upload">Upload</button>
+@if (!string.IsNullOrEmpty(msg))
+{
+	<div class="alert alert-info mt-2">
+		@msg
+	</div>
+}
+<hr />
+
+<a href="firmware/latest" target="_blank" class="btn btn-secondary">
+	Download latest firmware
+</a>
+
+
 
 @code {
+	private IBrowserFile? file;
+	private string version = "";
+	private string msg = String.Empty;
 
+	private async Task Upload()
+	{
+		if (string.IsNullOrWhiteSpace(version) || file is null)
+		{
+			msg = "Please select a file and enter a version.";
+			return;
+		}
+
+		MultipartFormDataContent content;
+
+		content = new MultipartFormDataContent
+		{
+			{new StringContent(version), "version"},
+			{new StreamContent(file.OpenReadStream(maxAllowedSize: 1024 * 1024 * 10)), file.Name}
+		};
+
+
+		var response = await client.PostAsync("api/firmware", content);
+		if (response.IsSuccessStatusCode)
+		{
+			msg = "Firmware uploaded successfully.";
+		}
+		else
+		{
+			msg = $"Error uploading firmware: {response.ReasonPhrase}";
+		}
+	}
 }
