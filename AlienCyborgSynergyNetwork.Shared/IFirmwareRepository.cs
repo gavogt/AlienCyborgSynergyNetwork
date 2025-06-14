@@ -8,7 +8,7 @@ namespace AlienCyborgSynergyNetwork.Shared
 {
     public interface IFirmwareRepository
     {
-        Task<FirmwareImage?> GetLastestAsync();
+        Task<FirmwareImage?> GetLatestAsync();
         Task AddAsync(FirmwareImage image);
     }
 }

@@ -18,7 +18,7 @@ namespace AlienCyborgSynergyNetwork.Shared
             return _context.FirmwareImages.AddAsync(image).AsTask();
         }
 
-        public Task<FirmwareImage?> GetLastestAsync()
+        public Task<FirmwareImage?> GetLatestAsync()
         {
             return _context.FirmwareImages
                 .OrderByDescending(f => f.Created)

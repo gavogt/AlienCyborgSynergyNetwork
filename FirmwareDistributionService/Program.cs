@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 var builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.UseUrls("http://192.168.0.179:5001");
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -16,10 +19,9 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapGet("/", () => "Firmware Server Running");
 
 app.Run();
