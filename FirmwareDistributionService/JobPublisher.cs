@@ -35,9 +35,9 @@ namespace FirmwareDistributionService
             // Declare a durable queue for firmware jobs
             await _channel.QueueDeclareAsync(queue: "firmware_jobs",
                                  durable: true, // Survive server restart
-                                 exclusive: false, // more than one consumer can use it
-                                 autoDelete: false, // don't delete it when last consumer leaves
-                                 arguments: null); // no fancy options
+                                 exclusive: false, // More than one consumer can use it
+                                 autoDelete: false, // Don't delete it when last consumer leaves
+                                 arguments: null); // No fancy options
 
         }
     }
