@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using AlienCyborgSynergyNetwork.Shared;
 using RabbitMQ.Client;
@@ -39,6 +40,23 @@ namespace FirmwareDistributionService
                                  autoDelete: false, // Don't delete it when last consumer leaves
                                  arguments: null); // No fancy options
 
+        }
+
+        public async Task Enqueue(FirmwareJob job)
+        {
+            if(_channel is null) throw new InvalidOperationException("Not initialized");
+
+            // Turn job into bytes
+            var body = JsonSerializer.SerializeToUtf8Bytes(job);
+
+            // Send job to firmware que
+            await _channel.BasicPublishAsync(
+                                    exchange: "",
+                                    routingKey: "firmware_jobs", // Address
+                                    mandatory: false, // Noone has to receive it
+                                    body: body, // The job
+                                    cancellationToken: CancellationToken.None // Don't want to cancel
+                                    );
         }
     }
 }
