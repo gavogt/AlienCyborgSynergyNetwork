@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AlienCyborgSynergyNetwork.Shared;
 
-namespace AlienCyborgSynergyNetwork.Shared
+namespace FirmwareDistributionService
 {
     public class SignCommand : ICommand
     {
