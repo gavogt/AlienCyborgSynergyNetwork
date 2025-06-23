@@ -32,17 +32,13 @@ namespace FirmwareDistributionService.Controllers
             [FromForm] string version,
             [FromForm] IFormFile firmware,
             [FromServices] IFirmwareUnitOfWork uow,
-            [FromServices] IWebHostEnvironment env)
+            [FromServices] IWebHostEnvironment env,
+            [FromServices] JobPublisher publisher)
         {
             var folder = Path.Combine(env.ContentRootPath, "wwwroot", "firmware", version);
-
             Directory.CreateDirectory(folder);
-    
-
             var path = Path.Combine(folder, firmware.FileName);
-
             await using var fs = System.IO.File.Create(path);
-
             await firmware.CopyToAsync(fs);
 
             var fw = new FirmwareImage
@@ -53,10 +49,19 @@ namespace FirmwareDistributionService.Controllers
             };
 
             await uow.Firmware.AddAsync(fw);
-
             await uow.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetLatest), new { }, null);
+            try
+            {
+                await publisher.InitAsync();
+                await publisher.Enqueue(new FirmwareJob(version));
+            }
+            catch(Exception ex)
+            {
+                return Problem(detail: ex.Message);
+            }
+
+            return Accepted();
         }
     }
 }

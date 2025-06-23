@@ -21,7 +21,10 @@ namespace FirmwareDistributionService
         public JobPublisher()
         {
             // Connect to localhost
-            _factory = new ConnectionFactory { HostName = "localhost" };
+            _factory = new ConnectionFactory { 
+                HostName = "localhost",
+                UserName = "guest",
+            Password ="guest"};
 
         }
 

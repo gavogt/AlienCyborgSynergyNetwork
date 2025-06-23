@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore.Sqlite;
 using Microsoft.EntityFrameworkCore.Design;
+using RabbitMQ.Client;
+using FirmwareDistributionService;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.UseUrls("http://192.168.0.179:5001");
@@ -18,6 +20,7 @@ builder.Services.AddDbContext<FirmwareDBContext>(opts =>
     opts.UseSqlite($"Data Source={dbPath}"));
 
 builder.Services.AddScoped<IFirmwareUnitOfWork, FirmwareUnitOfWork>();
+builder.Services.AddSingleton<JobPublisher>();
 
 var app = builder.Build();
 
