@@ -22,10 +22,10 @@ namespace FirmwareDistributionService.Controllers
                     return NotFound();
                 }
 
-                var url = Url.Content($"~/firmware/{fw.Version}/{fw.FileName}");
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "firmware", fw.Version, fw.FileName);
 
-                return Redirect(url);
-            } 
+            return PhysicalFile(path, "application/octet-stream", enableRangeProcessing:false);
+        } 
 
         [HttpPost]
         public async Task<IActionResult> Upload(

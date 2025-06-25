@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace AlienCyborgSynergyNetwork.Shared
 {
-    public record FirmwareJob(string version);
+    public record FirmwareJob(string Version);
 }

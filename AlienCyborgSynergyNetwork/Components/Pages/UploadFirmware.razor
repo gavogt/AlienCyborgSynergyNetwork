@@ -1,5 +1,8 @@
 ﻿@page "/firmware"
 @inject HttpClient client
+@using System.Collections.Concurrent;
+@inject HubConnection hub
+
 
 <h3>Upload Firmware</h3>
 
@@ -19,15 +22,33 @@
 	Download latest firmware
 </a>
 
-<hr />
-<NavLink class="btn btn-outline-secondary" href="updates">
-	See live update progress here.
-</NavLink>
+@if (jobs.IsEmpty)
+{
+	<p><em>No Firmware updates right now...</em></p>
+}
+else
+{
+	@foreach (var job in jobs)
+	{
+		<div class="mb-3">
+			<strong>Version: @job.Key</strong>
+			<div class="progress">
+				<div class="progress-bar" role="progressbar" style="width:@job.Value%">
+					@job.Value%
+				</div>
+			</div>
+		</div>
+	}
+
+}
+
 
 @code {
 	private IBrowserFile? file;
 	private string version = "";
 	private string msg = String.Empty;
+
+	private readonly ConcurrentDictionary<string, int> jobs = new();
 
 	private async Task Upload()
 	{
@@ -54,6 +75,21 @@
 		else
 		{
 			msg = $"Error uploading firmware: {response.ReasonPhrase}";
+		}
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		hub.On<string, int>("FirmwareProgress", (ver, pct) =>
+		{
+			jobs[ver] = pct;
+			InvokeAsync(StateHasChanged);
+
+		});
+
+		if (hub.State == HubConnectionState.Disconnected)
+		{
+			await hub.StartAsync();
 		}
 	}
 }

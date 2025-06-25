@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -23,6 +23,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AlienCyborgSynergyNetwork.Shared\AlienCyborgSynergyNetwork.Shared.csproj" />
+    <ProjectReference Include="..\NeuralHub\Hubs.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\firmware\" />
   </ItemGroup>
 
 </Project>

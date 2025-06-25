@@ -1,0 +1,14 @@
+version: '3.4'
+services:
+  firmware-api:
+    build:
+      context: .
+      dockerfile: FirmwareDistributionService/Dockerfile
+    image: firmware-distribution-service:dev
+    ports:
+      - "5001:80"
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
