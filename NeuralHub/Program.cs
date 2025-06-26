@@ -21,6 +21,7 @@ opts.UseSqlite($"Data Source={dbPathSensor}"));
 builder.Services.AddScoped<ISensorUnitOfWork, SensorUnitOfWork>();
 builder.Services.AddSignalR();
 builder.Services.AddHostedService<MqttSubscriberService>();
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<SubmitRatingCommand>());
 
 var app = builder.Build();
 
