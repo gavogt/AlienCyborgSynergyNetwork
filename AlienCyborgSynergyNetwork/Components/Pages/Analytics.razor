@@ -1,0 +1,17 @@
+﻿@page "/analytics"
+@inject RatingDBContext DbContext
+@using System.Linq
+@using System.Collections.Generic;
+@using AlienCyborgSynergyNetwork.Shared;
+@using Microsoft.EntityFrameworkCore;
+@using Syncfusion.Blazor;
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.HeatMap
+
+<h3>Resonance Heat-Map</h3>
+
+@code {
+
+	List<HeatMapDataItem> HeatMapData { get; set; } = new List<HeatMapDataItem>();
+	List<DailyDataItem> DailyData = new();
+}
