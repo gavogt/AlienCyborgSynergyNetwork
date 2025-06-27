@@ -4,7 +4,7 @@ using MediatR;
 using AlienCyborgSynergyNetwork.Shared;
 using Microsoft.EntityFrameworkCore.Sqlite;
 
-namespace Hubs
+namespace AlienCyborgSynergyNetwork.Shared
 {
     public class SubmitRatingHandler: IRequestHandler<SubmitRatingCommand, Guid>
     {

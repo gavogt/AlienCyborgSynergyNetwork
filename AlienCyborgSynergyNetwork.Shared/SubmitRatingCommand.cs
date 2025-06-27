@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MediatR;
 
-namespace Hubs
+namespace AlienCyborgSynergyNetwork.Shared
 {
     public record SubmitRatingCommand(
 

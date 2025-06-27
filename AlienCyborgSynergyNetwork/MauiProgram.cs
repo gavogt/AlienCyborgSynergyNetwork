@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.SignalR.Client;
 using AlienCyborgSynergyNetwork.Shared;
+using MediatR;
 
 namespace AlienCyborgSynergyNetwork
 {
@@ -61,7 +62,9 @@ namespace AlienCyborgSynergyNetwork
             {
                 BaseAddress = new Uri("http://192.168.0.179:5001")
             });
-
+            
+            builder.Services.AddMediatR(cfg =>
+                 cfg.RegisterServicesFromAssemblyContaining<SubmitRatingHandler>());
 
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();

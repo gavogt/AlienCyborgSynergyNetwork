@@ -1,0 +1,57 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using MediatR
+@using AlienCyborgSynergyNetwork.Shared
+@using System.Net.Http.Json
+
+@inject ISender Mediator
+@inject HttpClient Http
+
+<EditForm Model="@model" OnValidSubmit="HandleValidSubmit">
+	<DataAnnotationsValidator />
+	<ValidationSummary />
+
+	@foreach (var axis in axes)
+	{
+				<div class="mb-2">
+					<label>@axis</label>
+					<InputNumber @bind-Value="model[axis]" class="form-control" min="0" max="5" />
+				</div>
+	}
+
+	<button class="btn btn-primary" type="submit">Submit Rating</button>
+</EditForm>
+
+@code {
+	[Parameter]
+	public Guid SessionId { get; set; }
+
+	Dictionary<string, int> model = new()
+		{
+			["Stability"] = 3,
+			["Efficiency"] = 3,
+			["Cohesion"] = 3
+		};
+
+	string[] axes = ["Stability", "Efficiency", "Cohesion"];
+
+	async Task HandleValidSubmit()
+	{
+		var command = new SubmitRatingCommand(
+			SessionId,
+			model["Stability"],
+			model["Efficiency"],
+			model["Cohesion"]
+		);
+
+		var response = await Http.PostAsJsonAsync("api/ratings", command);
+
+		if (response.IsSuccessStatusCode)
+		{
+			Console.WriteLine("Rating submitted.");
+		}
+		else
+		{
+			Console.WriteLine("Submission failed");
+		}
+	}
+}
