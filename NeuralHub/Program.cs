@@ -18,6 +18,8 @@ var dbPathSensor = Path.Combine(folder, "sensor.db");
 builder.Services.AddDbContext<SensorDBContext>(opts =>
 opts.UseSqlite($"Data Source={dbPathSensor}"));
 
+builder.Services.AddControllers();
+
 builder.Services.AddScoped<ISensorUnitOfWork, SensorUnitOfWork>();
 builder.Services.AddSignalR();
 builder.Services.AddHostedService<MqttSubscriberService>();
@@ -34,5 +36,7 @@ using(var scope = app.Services.CreateScope())
 
 app.MapGet("/", () => "SignalR server is running");
 app.MapHub<NeuralHub>("/neuralhub");
+
+app.MapControllers();
 
 app.Run("https://localhost:7142");
